@@ -27,3 +27,15 @@ Route::post('/add_post', [AdminController::class, 'add_post']);
 
 
 Route::get('/show_posts', [AdminController::class, 'show_posts']);
+
+Route::get('/delete_post/{id}', [AdminController::class, 'delete_post']);
+
+Route::get('/edit_page/{id}', [AdminController::class, 'edit_page']);
+
+Route::post('/update_post/{id}', [AdminController::class, 'update_page']);
+
+Route::get('/post_details/{id}', [HomeController::class, 'post_details']);
+
+Route::get('/create_post', [HomeController::class, 'create_post'])->middleware('auth');
+
+Route::post('/user_post', [HomeController::class, 'user_post'])->middleware('auth');

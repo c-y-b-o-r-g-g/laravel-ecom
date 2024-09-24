@@ -2,6 +2,8 @@
 <html>
 
 <head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @include('admin.css')
 
     <style type="text/css">
@@ -43,6 +45,16 @@
 
         <div class="page-content">
 
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ session()->get('message') }}
+                </div>
+
+
+
+            @endif
+
             <h1 class="title_deg">All Posts</h1>
 
 
@@ -62,6 +74,10 @@
 
                     <th>Image</th>
 
+                    <th>Delete</th>
+
+                    <th>Edit</th>
+
                 </tr>
 
 
@@ -76,7 +92,15 @@
                         <td>
                             <img class="img_deg" src="postimage/{{ $post->image }}" alt="">
                         </td>
+
+                        <td>
+                            <a href="{{url('delete_post', $post->id)}}" class = "btn btn-danger" onclick="confirmation(event)" >Delete</a>
+                        </td>
                         {{-- <td>{{ $post->pos }}</td> --}}
+
+                        <td>
+                            <a href="{{url('edit_page', $post->id)}}" class="btn btn-success">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
 
@@ -97,6 +121,31 @@
     <script src="admincss/vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="admincss/js/charts-home.js"></script>
     <script src="admincss/js/front.js"></script>
+
+    <script>type="text/javascript"
+
+        function confirmation(event) {
+            event.preventDefault();
+            var url = event.currentTarget.getAttribute('href');
+            console.log(url);
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this post!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willnotDelete) => {
+                    if (willnotDelete) {
+                        window.location.href = url;
+                    } else {
+                        swal("Your post is not deleted!");
+                    }
+                });
+        }
+    </script>
+
+
 </body>
 
 </html>
